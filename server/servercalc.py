@@ -3,10 +3,10 @@ import phe as paillier
 import json
 
 def getData():
-	with open('data.json', 'r') as file: 
+	with open('server/data.json', 'r') as file: 
 		d=json.load(file)
-	data=json.loads(d)
-	return data
+		data=json.loads(d)
+		return data
 
 def computeData():
 	data=getData()
@@ -25,12 +25,15 @@ def serializeData():
 	serialized = json.dumps(encrypted_data)
 	return serialized
 
-print(sum([data[i]*mycoef[i] for i in range(len(data))]))
+def testNonEncryptedData(data):
+	mycoef=LinModel().getCoef()
+	print(sum([data[i]*mycoef[i] for i in range(len(data))]))
 
 def main():
 	datafile=serializeData()
-	with open('answer.json', 'w') as file:
+	with open('server/answer.json', 'w') as file:
 		json.dump(datafile, file)
+	print("Non Encrypted Answer: ", testNonEncryptedData([24, 4, 6, 1]))
 
 if __name__=='__main__':
 	main()
